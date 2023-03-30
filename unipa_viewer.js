@@ -171,7 +171,17 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     }
 
     function loadLocalCsv(e) {
-        ids_value = (!ids.value) ? ids.value : ids.value.split('\n');
+        if (!ids.value) {
+            ids_value = ids.value;
+        } else {
+            ids_value = [];
+            let a = ids.value.split('\n');
+            console.log(a);
+            for (let i = 0; i < a.length; i++) {
+                ids_value.push(a[i].substring(0, 10));
+            }
+            console.log(ids_value);
+        }
         
         // ファイル情報を取得
         let fileData = e.target.files[0];
