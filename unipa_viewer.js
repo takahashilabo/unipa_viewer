@@ -78,7 +78,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
             r += `<td>${t[i]}</td>`;
         }
         r += "</tr><tr style='text-align:right;'>"
-        r += `<td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],124)}</td><td>${h(a[1],20)}</td><td>${h(a[12],8)}</td><td>${a[15]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${h(a[6],2)}</td><td>${a[8]}</td><td>${h(a[9],1)}</td><td>${a[11]}</td><td>${a[13]}</td><td>${h(a[14],4)}</td><td>${a[16]}</td><td>${a[17]}</td><td>${a[18]}</td></tr>`;
+        r += `<td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],118)}</td><td>${h(a[1],20)}</td><td>${h(a[12],8)}</td><td>${a[15]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${h(a[6],2)}</td><td>${a[8]}</td><td>${h(a[9],1)}</td><td>${a[11]}</td><td>${a[13]}</td><td>${h(a[14],4)}</td><td>${a[16]}</td><td>${a[17]}</td><td>${a[18]}</td></tr>`;
         return r + "</tr>";
     }
 
@@ -89,7 +89,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
             r += `<td>${t[i]}</td>`;
         }
         r += "</tr><tr style='text-align:right;'>"
-        r += `<td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],124)}</td><td>${h(Number(a[1])+Number(a[16]),28)}</td><td>${a[16]}</td><td>${a[22]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${a[5]}</td><td>${h(a[9],2)}</td><td>${a[10]}</td><td>${a[12]}</td><td>${a[13]}</td><td>${h(a[15],1)}</td><td>${a[17]}</td><td>${h(a[18],4)}</td><td>${a[19]}</td><td>${a[23]}</td><td>${a[24]}</td><td>${a[25]}</td></tr>`;
+        r += `<td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],118)}</td><td>${h(Number(a[1])+Number(a[16]),28)}</td><td>${a[16]}</td><td>${a[22]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${a[5]}</td><td>${h(a[9],2)}</td><td>${a[10]}</td><td>${a[12]}</td><td>${a[13]}</td><td>${h(a[15],1)}</td><td>${a[17]}</td><td>${h(a[18],4)}</td><td>${a[19]}</td><td>${a[23]}</td><td>${a[24]}</td><td>${a[25]}</td></tr>`;
         return r;
     }
 
