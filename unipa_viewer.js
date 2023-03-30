@@ -1,13 +1,13 @@
 // File APIに対応しているか確認
 if (window.File && window.FileReader && window.FileList && window.Blob) {
 
-    let file, result;
+    var file, result;
 
-    let c_GB = 0; //学籍番号
-    let c_GS = 1; //学生氏名
-    let c_TSKM = 2; //単位識別区分名称
-    let c_SKBR = 3; //成績用科目分類略称
-    let c_KBT = 4; //科目分類毎単位
+    var c_GB = 0; //学籍番号
+    var c_GS = 1; //学生氏名
+    var c_TSKM = 2; //単位識別区分名称
+    var c_SKBR = 3; //成績用科目分類略称
+    var c_KBT = 4; //科目分類毎単位
 
     window.onload = function () {
         file = document.getElementById('file1');
