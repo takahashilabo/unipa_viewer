@@ -72,7 +72,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     }
 
     function makeRow_1(gb, gs, a) { //新カリ用
-        const t = ["学籍番号", "氏名", "合計", "共通教養", "外国語", "専門", "人○", "人■", "地■", "課○", "課■", "ス■", "外○", "外■", "専○", "専■", "専△"];
+        const t = ["学籍番号", "氏名", "合計≧118", "共通教養≧20", "外国語≧8", "専門", "人○", "人■≧2", "地■≧2", "課○", "課■", "ス■≧1", "外○", "外■≧4", "専○", "専■", "専△"];
         let r = "<tr style='font-size:50%;text-align:center;'>";
         for (let i = 0; i < t.length; i++) {
             r += `<td>${t[i]}</td>`;
@@ -83,7 +83,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     }
 
     function makeRow_2(gb, gs, a) { //旧カリ用
-        const t = ["学籍番号", "氏名", "合計", "共通教養5群含む", "5群", "専門", "1○", "1■", "1△", "2■", "2△", "3○", "3△", "4■", "5○", "5■", "5△", "専○", "専■", "専△"];;
+        const t = ["学籍番号", "氏名", "合計≧118", "共通教養5群含≧28", "5群", "専門", "1○", "1■≧2", "1△", "2■≧2", "2△", "3○", "3△", "4■≧1", "5○", "5■≧4", "5△", "専○", "専■", "専△"];
         let r = "<tr style='font-size:50%;text-align:center;'>";
         for (let i = 0; i < t.length; i++) {
             r += `<td>${t[i]}</td>`;
