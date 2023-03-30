@@ -176,11 +176,9 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         } else {
             ids_value = [];
             let a = ids.value.split('\n');
-            console.log(a);
             for (let i = 0; i < a.length; i++) {
                 ids_value.push(a[i].substring(0, 10));
             }
-            console.log(ids_value);
         }
         
         // ファイル情報を取得
