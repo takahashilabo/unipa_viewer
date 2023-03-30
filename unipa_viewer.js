@@ -4,10 +4,12 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     var file, result;
 
     var c_GB = 0; //学籍番号
-    var c_GS = 1; //学生氏名
-    var c_TSKM = 2; //単位識別区分名称
-    var c_SKBR = 3; //成績用科目分類略称
-    var c_KBT = 4; //科目分類毎単位
+    var c_GS = 0; //学生氏名
+    var c_SMK = 0; //進級(見込)区分名称 or 卒業(見込)区分名称
+    var c_TSKM = 0; //単位識別区分名称
+    var c_SKBR = 0; //成績用科目分類略称
+    var c_KBT = 0; //科目分類毎単位
+    var c_G = 0; //学年
 
     window.onload = function () {
         file = document.getElementById('file1');
@@ -18,21 +20,47 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     //CSV列タイトルから配列インデックスを取得する
     function getArrayIndex(arr) {
         let idx = [];
+        c_SKBR = 0; //２回目を無視するため（ブラウザ残って０にならないケースがあった）
         outer:
         for (let i = 0; i < arr.length; i++) {
             switch(arr[i]) {
                 case '学籍番号':
-                case '学生氏名':
-                case '単位識別区分名称':
-                case '成績用科目分類略称':
-                case '科目分類毎単位':
+                    c_GB = idx.length;
                     idx.push(i);
-                    if (idx.length >= 5) break outer;
+                    break;
+                case '学生氏名':
+                    c_GS = idx.length;
+                    idx.push(i);
+                    break;
+                case '進級見込区分名称':
+                case '進級区分名称':
+                case '卒業見込区分名称':
+                case '卒業区分名称':
+                    c_SMK = idx.length;
+                    idx.push(i);
+                    break;
+                case '単位識別区分名称':
+                    c_TSKM = idx.length;
+                    idx.push(i);
+                    break;
+                case '成績用科目分類略称':
+                    if (c_SKBR == 0) { //２回目を無視するため
+                        c_SKBR = idx.length;
+                        idx.push(i);
+                    }
+                    break;
+                case '科目分類毎単位':
+                    c_KBT = idx.length;
+                    idx.push(i);
+                    break;
+                case '学年':
+                    c_G = idx.length;
+                    idx.push(i);
                     break;
             }
         }
-        if (idx.length != 5) {
-            alert('判定資料CSVが想定した形式ではないため処理できません。中断します。');
+        if (idx.length < 6) {
+            alert('判定資料CSVが想定した形式ではないため処理できません。中断します。' + idx);
             return;
         }
         return idx;
@@ -59,11 +87,12 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         return data;
     }
 
-    function makeRow(c, gb, gs, a) {
+    function makeRow(c, gb, gs, smk, g, a) {
+        if (!g) g = "";
         if (c == 1) {
-            return makeRow_1(gb, gs, a);
+            return makeRow_1(gb, gs, smk, g, a);
         } else {
-            return makeRow_2(gb, gs, a);
+            return makeRow_2(gb, gs, smk, g, a);
         }
     }
 
@@ -71,25 +100,33 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         return (v >= c) ? v : `<font style='color:red;'>${v}</font>` 
     }
 
-    function makeRow_1(gb, gs, a) { //新カリ用
-        const t = ["学籍番号", "氏名", "合計≧118", "共通教養≧20", "外国語≧8", "専門", "人○", "人■≧2", "地■≧2", "課○", "課■", "ス■≧1", "外○", "外■≧4", "専○", "専■", "専△"];
+    function hh(v, c) { //不可があったら色づけする
+        if (!v) return v;
+        if (v.indexOf('不可') != -1 || v.indexOf('留年') != -1) {
+            return `<font style='color:red;'>${v}</font>`;
+        }
+        return v;
+    }
+
+    function makeRow_1(gb, gs, smk, g, a) { //新カリ用
+        const t = ["学年", "判定", "学籍番号", "氏名", "合計≧118", "共通教養≧20", "外国語≧8", "専門", "人○", "人■≧2", "地■≧2", "課○", "課■", "ス■≧1", "外○", "外■≧4", "専○", "専■", "専△"];
         let r = "<tr style='font-size:50%;text-align:center;'>";
         for (let i = 0; i < t.length; i++) {
             r += `<td>${t[i]}</td>`;
         }
         r += "</tr><tr style='text-align:right;'>"
-        r += `<td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],118)}</td><td>${h(a[1],20)}</td><td>${h(a[12],8)}</td><td>${a[15]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${h(a[6],2)}</td><td>${a[8]}</td><td>${h(a[9],1)}</td><td>${a[11]}</td><td>${a[13]}</td><td>${h(a[14],4)}</td><td>${a[16]}</td><td>${a[17]}</td><td>${a[18]}</td></tr>`;
+        r += `<td>${g}</td><td>${hh(smk)}</td><td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],118)}</td><td>${h(a[1],20)}</td><td>${h(a[12],8)}</td><td>${a[15]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${h(a[6],2)}</td><td>${a[8]}</td><td>${h(a[9],1)}</td><td>${a[11]}</td><td>${a[13]}</td><td>${h(a[14],4)}</td><td>${a[16]}</td><td>${a[17]}</td><td>${a[18]}</td></tr>`;
         return r + "</tr>";
     }
 
-    function makeRow_2(gb, gs, a) { //旧カリ用
-        const t = ["学籍番号", "氏名", "合計≧118", "共通教養5群含≧28", "5群", "専門", "1○", "1■≧2", "1△", "2■≧2", "2△", "3○", "3△", "4■≧1", "5○", "5■≧4", "5△", "専○", "専■", "専△"];
+    function makeRow_2(gb, gs, smk, g, a) { //旧カリ用
+        const t = ["学年", "判定", "学籍番号", "氏名", "合計≧118", "共通教養5群含≧28", "5群", "専門", "1○", "1■≧2", "1△", "2■≧2", "2△", "3○", "3△", "4■≧1", "5○", "5■≧4", "5△", "専○", "専■", "専△"];
         let r = "<tr style='font-size:50%;text-align:center;'>";
         for (let i = 0; i < t.length; i++) {
             r += `<td>${t[i]}</td>`;
         }
         r += "</tr><tr style='text-align:right;'>"
-        r += `<td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],118)}</td><td>${h(Number(a[1])+Number(a[16]),28)}</td><td>${a[16]}</td><td>${a[22]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${a[5]}</td><td>${h(a[9],2)}</td><td>${a[10]}</td><td>${a[12]}</td><td>${a[13]}</td><td>${h(a[15],1)}</td><td>${a[17]}</td><td>${h(a[18],4)}</td><td>${a[19]}</td><td>${a[23]}</td><td>${a[24]}</td><td>${a[25]}</td></tr>`;
+        r += `<td>${g}</td><td>${hh(smk)}</td><td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],118)}</td><td>${h(Number(a[1])+Number(a[16]),28)}</td><td>${a[16]}</td><td>${a[22]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${a[5]}</td><td>${h(a[9],2)}</td><td>${a[10]}</td><td>${a[12]}</td><td>${a[13]}</td><td>${h(a[15],1)}</td><td>${a[17]}</td><td>${h(a[18],4)}</td><td>${a[19]}</td><td>${a[23]}</td><td>${a[24]}</td><td>${a[25]}</td></tr>`;
         return r;
     }
 
@@ -97,6 +134,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         let r = "<table border=1>";
         let gb = ""; //学籍番号
         let gs = ""; //学生氏名
+        let smk = ""; //進級判定 or 卒業判定
+        let g = ""; //学年
         let c = 1; //カリキュラムフラグ（1:新カリ, 2:旧カリ）
         let a = [];
         for (let i = 0; i < data.length; i++) {
@@ -104,15 +143,17 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                 a.push(data[i][c_KBT]);
                 if (data[i][c_SKBR].indexOf('群') != -1) c = 2; //旧カリだ
             } else {
-                r += makeRow(c, gb, gs, a);
+                r += makeRow(c, gb, gs, smk, g, a);
                 a = [];
                 a.push(data[i][c_KBT]);
                 c = 1;
             }
             gb = data[i][c_GB];
             gs = data[i][c_GS];
+            smk = data[i][c_SMK];
+            g = data[i][c_G];
         }
-        r += makeRow(c, gb, gs, a);
+        r += makeRow(c, gb, gs, smk, g, a);
         return r + "</table>";
     }
 
