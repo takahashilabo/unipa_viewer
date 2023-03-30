@@ -2,18 +2,6 @@
     padding: 15px;
 }
 
-#class_id_error {
-    color:red;
-    font-size:80%;
-}
-
-#class_id:valid {
-	color:black;
-}
-#class_id:invalid {
-	background:yellow;
-}
-
 .files input {
     outline: 2px dashed #555555;
     outline-offset: -10px;
