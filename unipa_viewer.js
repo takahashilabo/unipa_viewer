@@ -1,7 +1,7 @@
 // File APIに対応しているか確認
 if (window.File && window.FileReader && window.FileList && window.Blob) {
 
-    var file, result;
+    var file, result, ids, ids_value;
 
     var c_GB = 0; //学籍番号
     var c_GS = 0; //学生氏名
@@ -12,6 +12,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     var c_G = 0; //学年
 
     window.onload = function () {
+        ids = document.getElementById('ids');
         file = document.getElementById('file1');
         result = document.getElementById('result');
         file.addEventListener('change', loadLocalCsv, false);
@@ -89,10 +90,22 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
     function makeRow(c, gb, gs, smk, g, a) {
         if (!g) g = "";
-        if (c == 1) {
-            return makeRow_1(gb, gs, smk, g, a);
+        if (!ids_value) {
+            if (c == 1) {
+                return makeRow_1(gb, gs, smk, g, a);
+            } else {
+                return makeRow_2(gb, gs, smk, g, a);
+            }
         } else {
-            return makeRow_2(gb, gs, smk, g, a);
+            if (ids_value.indexOf(gb) != -1) {
+                if (c == 1) {
+                    return makeRow_1(gb, gs, smk, g, a);
+                } else {
+                    return makeRow_2(gb, gs, smk, g, a);
+                }
+            } else {
+                return "";
+            }
         }
     }
 
@@ -158,6 +171,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     }
 
     function loadLocalCsv(e) {
+        ids_value = (!ids.value) ? ids.value : ids.value.split('\n');
+        
         // ファイル情報を取得
         let fileData = e.target.files[0];
 
