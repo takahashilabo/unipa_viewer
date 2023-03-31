@@ -69,7 +69,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
     //判定資料に「修得済」のみがあるか（＝「履修中」「合計」が含まているか）チェックする
     function isShutokuzumiOnly(data) {
-        for (let i = 1; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             if (data[i][c_TSKM] == "履修中" || data[i][c_TSKM] == "合計") {
                 return false;
             }
@@ -77,14 +77,19 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         return true;
     }
 
-    //判定資料のタイトル行と「合計」以外の行を削除する
+    //判定資料の「合計」以外の行を削除する
     function cleanData(data) {
-        data.shift(); //タイトル行を削除する
         for (let i = data.length - 1; i >= 0; i--) {
             if (data[i][c_TSKM] != "合計") {
                 data.splice(i, 1);
             }
         }
+        return data;
+    }
+
+    //判定資料を学籍番号順で並び替える（判定資料がコースごとになっているため）
+    function sortData(data) {
+        data.sort((a,b)=>{if(a[c_GB]<b[c_GB]) return -1; else return 1; return 0;}) //学籍番号をキーに昇順に並び替える
         return data;
     }
 
@@ -192,6 +197,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
         // FileReaderオブジェクトを使ってファイル読み込み
         let reader = new FileReader();
+
         // ファイル読み込みに成功したときの処理
         reader.onload = function () {
             let rows = reader.result.replaceAll("\"","").split('\n');
@@ -210,10 +216,16 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                 data.push(b)
             }
 
+            //タイトル行を削除する
+            data.shift();
+
             //「修得済み」以外を含むCSVなら不要なデータ行を削除する
             if (isShutokuzumiOnly(data) == false) {
                 data = cleanData(data);
             }
+
+            //学籍番号でソートする
+            data = sortData(data);
 
             //HTML生成
             let str = createTable(data);
