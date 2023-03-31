@@ -89,7 +89,13 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
     //判定資料を学籍番号順で並び替える（判定資料がコースごとになっているため）
     function sortData(data) {
-        data.sort((a,b)=>{if(a[c_GB]<b[c_GB]) return -1; else return 1; return 0;}) //学籍番号をキーに昇順に並び替える
+        data.sort((a,b)=>{
+            if(a[c_G] > b[c_G]) return -1;
+            else return 1;
+            if(a[c_GB]<b[c_GB]) return -1;
+            else return 1;
+            return 0;
+        }); //学籍番号をキーに昇順に並び替える
         return data;
     }
 
