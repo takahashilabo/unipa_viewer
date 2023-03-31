@@ -89,11 +89,17 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
     //判定資料を学籍番号順で並び替える（判定資料がコースごとになっているため）
     function sortData(data) {
+        let c = data[0].length - 1;
         data.sort((a,b)=>{
+            //学年で降順ソート
             if (a[c_G] > b[c_G]) return -1;
             else if (a[c_G] < b[c_G]) return 1;
+            //学籍番号で昇順ソート
             if (a[c_GB] < b[c_GB]) return -1;
             else if (a[c_GB] > b[c_GB]) return 1;
+            //ユニークIDで昇順ソート
+            if (a[c] < b[c]) return -1;
+            else if (a[c] > b[c]) return 1;
             return 0;
         }); //学籍番号をキーに昇順に並び替える
         return data;
@@ -213,12 +219,14 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
             //必要な列だけ抜き取ってdataを生成する
             let data = [];
+            let dummy_c = 0;
             for (let i = 1; i < rows.length; i++) {
                 let a = rows[i].split(',');
                 let b = [];
                 for (let j = 0; j < col_idx.length; j++) {
                     b.push(a[col_idx[j]]);
                 }
+                b.push(dummy_c++); //chromeでソートがうまくいかない場合に対応するユニークな値カラムの追加
                 data.push(b)
             }
 
