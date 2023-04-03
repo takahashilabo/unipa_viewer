@@ -145,7 +145,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
             r += `<td>${t[i]}</td>`;
         }
         r += "</tr><tr style='text-align:right;'>"
-        r += `<td>${g}</td><td>${hh(smk)}</td><td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],118)}</td><td>${h(a[1],20)}</td><td>${h(a[12],8)}</td><td>${a[15]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${h(a[6],2)}</td><td>${a[8]}</td><td>${h(a[9],1)}</td><td>${a[11]}</td><td>${a[13]}</td><td>${h(a[14],4)}</td><td>${a[16]}</td><td>${a[17]}</td><td>${a[18]}</td></tr>`;
+        r += `<td>${g}</td><td>${hh(smk)}</td><td style='text-align:center;'>${gb}</td><td style='text-align:left;'>${gs}</td><td>${h(a[0],118)}</td><td>${h(a[1],20)}</td><td>${h(a[12],8)}</td><td>${a[15]}</td><td>${a[3]}</td><td>${h(a[4],2)}</td><td>${h(a[6],2)}</td><td>${a[8]}</td><td>${a[9]}</td><td>${h(a[11],1)}</td><td>${a[13]}</td><td>${h(a[14],4)}</td><td>${a[16]}</td><td>${a[17]}</td><td>${a[18]}</td></tr>`;
         return r + "</tr>";
     }
 
