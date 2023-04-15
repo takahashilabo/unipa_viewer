@@ -28,10 +28,12 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                 case '学籍番号':
                     c_GB = idx.length;
                     idx.push(i);
+                    console.log(arr[i]); //for debug
                     break;
                 case '学生氏名':
                     c_GS = idx.length;
                     idx.push(i);
+                    console.log(arr[i]); //for debug
                     break;
                 case '進級見込区分名称':
                 case '進級区分名称':
@@ -39,24 +41,29 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                 case '卒業区分名称':
                     c_SMK = idx.length;
                     idx.push(i);
+                    console.log(arr[i]); //for debug
                     break;
                 case '単位識別区分名称':
                     c_TSKM = idx.length;
                     idx.push(i);
+                    console.log(arr[i]); //for debug
                     break;
                 case '成績用科目分類略称':
                     if (c_SKBR == 0) { //２回目を無視するため
                         c_SKBR = idx.length;
                         idx.push(i);
+                        console.log(arr[i]); //for debug
                     }
                     break;
                 case '科目分類毎単位':
                     c_KBT = idx.length;
                     idx.push(i);
+                    console.log(arr[i]); //for debug
                     break;
                 case '学年':
                     c_G = idx.length;
                     idx.push(i);
+                    console.log(arr[i]); //for debug
                     break;
             }
         }
