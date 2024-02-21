@@ -233,6 +233,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                 for (let j = 0; j < col_idx.length; j++) {
                     b.push(a[col_idx[j]]);
                 }
+                if (b[0] == undefined) continue; //追記：最後に改行が入り表崩れになるデータをスキップするため
                 b.push(dummy_c++); //chromeでソートがうまくいかない場合に対応するユニークな値カラムの追加
                 data.push(b)
             }
